@@ -94,7 +94,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 */
 	private static final void writeHighLowVarianceToConsole(
 		int[][] tempsArray) {
@@ -134,7 +134,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 */
 	private static final void writeSummaryToConsole(int[][] tempsArray) {
 		
@@ -167,7 +167,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 */
 	private static final void writeGraphToConsole(int[][] tempsArray) {
 		
@@ -241,7 +241,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 * @param printWriter: The PrintWriter
 	 */
 	private static final void writeHighLowVarianceToFile(
@@ -287,7 +287,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 * @param printWriter: The PrintWriter
 	 */
 	private static final void writeSummaryToFile(
@@ -327,7 +327,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 * @param printWriter: The PrintWriter
 	 */
 	private static final void writeGraphToFile(
@@ -378,7 +378,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 *  
 	 * @return: The highest temperature in the temperatures array
 	 */
@@ -409,7 +409,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 *  
 	 * @return: The average highest daily temperature in the temperatures
 	 * 	array
@@ -437,7 +437,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 *  
 	 * @return: The lowest temperature in the temperatures array
 	 */
@@ -469,7 +469,7 @@ public class Assignment2 {
 	 * 	row represents a day, the first column of each row stores the
 	 *  number of the day (in the month), the second column of each row
 	 *  stores the highest temperature of the day, and the third column
-	 *  stores the lowest temperature of the day
+	 *  of each row stores the lowest temperature of the day
 	 *  
 	 * @return: The average lowest daily temperature in the temperatures
 	 * 	array
