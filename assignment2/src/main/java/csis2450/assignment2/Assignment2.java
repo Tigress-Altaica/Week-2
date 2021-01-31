@@ -63,11 +63,11 @@ public class Assignment2 {
 		while ((line = bufferedReader.readLine()) != null) {
 			values = line.split(",");
 			
-			tempsArray[lineIndex][0] = Integer.getInteger(values[0]);
-			tempsArray[lineIndex][1] = Integer.getInteger(values[1]);
-			tempsArray[lineIndex][2] = Integer.getInteger(values[2]);
+			tempsArray[lineIndex][0] = Integer.parseInt(values[0]);
+			tempsArray[lineIndex][1] = Integer.parseInt(values[1]);
+			tempsArray[lineIndex][2] = Integer.parseInt(values[2]);
 			
-			lineIndex += lineIndex;
+			lineIndex += 1;
 		}
 		
 		bufferedReader.close();
@@ -109,10 +109,19 @@ public class Assignment2 {
 		
 		for (int i = 0; i < tempsArray.length; i++) {
 			variance = tempsArray[i][1] - tempsArray[i][2];
+			
+			if (tempsArray[i][0] < 10) {
+				System.out.printf("%d     %2d    %2d    %2d"
+					+ System.lineSeparator(),
+					tempsArray[i][0], tempsArray[i][1],
+					tempsArray[i][2], variance);
+			}
+			else {
 			System.out.printf("%2d    %2d    %2d    %2d"
 				+ System.lineSeparator(),
 				tempsArray[i][0], tempsArray[i][1],
 				tempsArray[i][2], variance);
+			}
 		}
 	}
 	
@@ -132,18 +141,18 @@ public class Assignment2 {
 		int indexOfHighestTemp = indexOfHighestTemp(tempsArray);
 		int highestDay = tempsArray[indexOfHighestTemp][0];
 		int highestValue = tempsArray[indexOfHighestTemp][1];
-		int averageHigh = averageHigh(tempsArray);
+		double averageHigh = averageHigh(tempsArray);
 		
 		int indexOfLowestTemp = indexOfLowestTemp(tempsArray);
 		int lowestDay = tempsArray[indexOfLowestTemp][0];
 		int lowestValue = tempsArray[indexOfLowestTemp][2];
-		int averageLow = averageLow(tempsArray);
+		double averageLow = averageLow(tempsArray);
 		
 		System.out.println("--------------------------------------------------------------");
 		System.out.printf("December Highest Temperature: 12/%d: %d Average"
 			+ " Hi: %.1f" + System.lineSeparator(),
 			highestDay, highestValue, averageHigh);
-		System.out.printf("December Lowest Temperature: 12/%d: %d Average"
+		System.out.printf("December Lowest Temperature:  12/%d: %d Average"
 			+ " Lo: %.1f" + System.lineSeparator(),
 			lowestDay, lowestValue, averageLow);
 		System.out.println("--------------------------------------------------------------");
@@ -180,14 +189,14 @@ public class Assignment2 {
 			if (dayNum < 10) {
 				System.out.printf("%d  Hi %s" + System.lineSeparator(),
 					dayNum, pluses);
-				System.out.printf("%d  Lo %s" + System.lineSeparator(),
-					dayNum, minuses);
+				System.out.printf("   Lo %s" + System.lineSeparator(),
+					minuses);
 			}
 			else {
 				System.out.printf("%d Hi %s" + System.lineSeparator(),
 					dayNum, pluses);
-				System.out.printf("%d Lo %s" + System.lineSeparator(),
-					dayNum, minuses);
+				System.out.printf("   Lo %s" + System.lineSeparator(),
+					minuses);
 			}
 		}
 		
@@ -248,10 +257,19 @@ public class Assignment2 {
 		
 		for (int i = 0; i < tempsArray.length; i++) {
 			variance = tempsArray[i][1] - tempsArray[i][2];
-			printWriter.printf("%2d    %2d    %2d    %2d"
-				+ System.lineSeparator(),
-				tempsArray[i][0], tempsArray[i][1],
-				tempsArray[i][2], variance);
+			
+			if (tempsArray[i][0] < 10) {
+				printWriter.printf("%d     %2d    %2d    %2d"
+					+ System.lineSeparator(),
+					tempsArray[i][0], tempsArray[i][1],
+					tempsArray[i][2], variance);
+			}
+			else {
+				printWriter.printf("%2d    %2d    %2d    %2d"
+					+ System.lineSeparator(),
+					tempsArray[i][0], tempsArray[i][1],
+					tempsArray[i][2], variance);
+			}
 		}
 	}
 	
@@ -278,18 +296,18 @@ public class Assignment2 {
 		int indexOfHighestTemp = indexOfHighestTemp(tempsArray);
 		int highestDay = tempsArray[indexOfHighestTemp][0];
 		int highestValue = tempsArray[indexOfHighestTemp][1];
-		int averageHigh = averageHigh(tempsArray);
+		double averageHigh = averageHigh(tempsArray);
 		
 		int indexOfLowestTemp = indexOfLowestTemp(tempsArray);
 		int lowestDay = tempsArray[indexOfLowestTemp][0];
 		int lowestValue = tempsArray[indexOfLowestTemp][2];
-		int averageLow = averageLow(tempsArray);
+		double averageLow = averageLow(tempsArray);
 		
 		printWriter.println("--------------------------------------------------------------");
 		printWriter.printf("December Highest Temperature: 12/%d: %d Average"
 			+ " Hi: %.1f" + System.lineSeparator(),
 			highestDay, highestValue, averageHigh);
-		printWriter.printf("December Lowest Temperature: 12/%d: %d Average"
+		printWriter.printf("December Lowest Temperature:  12/%d: %d Average"
 			+ " Lo: %.1f" + System.lineSeparator(),
 			lowestDay, lowestValue, averageLow);
 		printWriter.println("--------------------------------------------------------------");
@@ -333,14 +351,14 @@ public class Assignment2 {
 			if (dayNum < 10) {
 				printWriter.printf("%d  Hi %s" + System.lineSeparator(),
 					dayNum, pluses);
-				printWriter.printf("%d  Lo %s" + System.lineSeparator(),
-					dayNum, minuses);
+				printWriter.printf("   Lo %s" + System.lineSeparator(),
+					minuses);
 			}
 			else {
 				printWriter.printf("%d Hi %s" + System.lineSeparator(),
 					dayNum, pluses);
-				printWriter.printf("%d Lo %s" + System.lineSeparator(),
-					dayNum, minuses);
+				printWriter.printf("   Lo %s" + System.lineSeparator(),
+					minuses);
 			}
 		}
 		
@@ -393,13 +411,14 @@ public class Assignment2 {
 	 *  stores the highest temperature of the day, and the third column
 	 *  stores the lowest temperature of the day
 	 *  
-	 * @return: The highest daily temperature in the temperatures array
+	 * @return: The average highest daily temperature in the temperatures
+	 * 	array
 	 */
-	private static final int averageHigh(int[][] tempsArray) {
+	private static final double averageHigh(int[][] tempsArray) {
 		assert tempsArray != null;
 		assert tempsArray.length > 0;
 		
-		int highsSum = 0;
+		double highsSum = 0;
 		
 		for (int i = 0; i < tempsArray.length; i++) {
 			highsSum += tempsArray[i][1];
@@ -452,13 +471,14 @@ public class Assignment2 {
 	 *  stores the highest temperature of the day, and the third column
 	 *  stores the lowest temperature of the day
 	 *  
-	 * @return: The lowest daily temperature in the temperatures array
+	 * @return: The average lowest daily temperature in the temperatures
+	 * 	array
 	 */
-	private static final int averageLow(int[][] tempsArray) {
+	private static final double averageLow(int[][] tempsArray) {
 		assert tempsArray != null;
 		assert tempsArray.length > 0;
 		
-		int lowsSum = 0;
+		double lowsSum = 0;
 		
 		for (int i = 0; i < tempsArray.length; i++) {
 			lowsSum += tempsArray[i][2];
