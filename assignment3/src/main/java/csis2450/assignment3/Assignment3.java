@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Month;
+import java.util.Scanner;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,28 +19,34 @@ import org.apache.commons.lang3.StringUtils;
 * @author Anneliese Braunegg
 * 
 * Date Created: Saturday, January 30, 2021
-* Date Last Updated: Saturday, January 30, 2021
+* Date Last Updated: Sunday, January 31, 2021
 *
 */
 public class Assignment3 {
 	
-	private static final String reportFilePath
+	private static final String REPORT_FILE_PATH
 		= Paths.get("src", "main", "resources",
 			"TemperaturesReportFromDB.txt").toString();
 	
 	/**
-	 * Read an array of temperature data from a database, then return it.
+	 * Read an array of temperature data for the specified month from a
+	 * database, then return it.
 	 * 
 	 * NOTE: This method is largely copied from PracticeDBDemo.java, which
 	 * was written by Professor John Gordon.
+	 * 
+	 * @param monthNum: The number of the month whose temperature data to
+	 * 	read and return
 	 * 
 	 * @return The array of temperature data
 	 * 
 	 * @throws Exception: If an exception occurs upon attempting to access
 	 * 	the database or its contents
 	 */
-	private static final int[][] readTempsArrayFromDatabase()
+	private static final int[][] readTempsArrayFromDatabase(int monthNum)
 		throws Exception {
+		
+		assert 1 <= monthNum && monthNum <= 12;
 		
 		String connectionString = "jdbc:mysql://127.0.0.1:3306/practice";
         String dbLogin = "javauser";
@@ -46,7 +54,8 @@ public class Assignment3 {
         Connection conn = null;
         
         String sql = "SELECT month, day, year, hi, lo FROM temperatures "
-        		+ "WHERE month = 12 AND year = 2020 ORDER BY month, day, year;";
+        	+ "WHERE month = " + monthNum + " AND year = 2020"
+        	+ " ORDER BY month, day, year;";
 
         int[][] dbResults = null;
         
@@ -72,22 +81,6 @@ public class Assignment3 {
                         dbResults[i][4] = Integer.parseInt(rs.getString("lo"));
                         rs.next();
                     }
-                    	                    
-                    // TODO: Remove commented-out section;
-//	                    System.out.printf("Number of Array Rows: %d%n", dbResults.length);
-//	                	printLine(30);
-//	                	System.out.println("Date\t\tHi\tLo");
-//	                	printLine(30);
-//	                    for (int i = 0; i < dbResults.length; i++)
-//	                    {
-//	                        System.out.printf("%s/%s/%s\t%s\t%s%n", 
-//	                        dbResults[i][0],
-//	                        dbResults[i][1],
-//	                        dbResults[i][2],
-//	                        dbResults[i][3],
-//	                        dbResults[i][4]);
-//	                    }
-//	                	printLine(30);
                 } catch (SQLException ex) {
                     throw ex;
                 }
@@ -100,57 +93,19 @@ public class Assignment3 {
     	return dbResults;
 	}
 	
-	// TODO: Remove the below commented-out method.
-//	/**
-//	 * Read an array of temperature data from the specified file, then
-//	 * return the array. The temperature data must be organized into rows,
-//	 * and delimiter used to separate the data values within each row must
-//	 * be a comma.
-//	 * 
-//	 * NOTE: The file must be of a type that is readable by a
-//	 * BufferedReader taking input of a FileReader taking input of the
-//	 * file's file path.
-//	 * 
-//	 * @param tempsFilePath: Path to the file containing the temperature
-//	 * 	data
-//	 * @param numOfRows: Number of rows in the file
-//	 * @param numOfCols: Number of columns (i.e., data values per row) in
-//	 * 	the file
-//	 */
-//	private static final int[][] readTempsArrayFromFile(
-//		String tempsFilePath, int numOfRows, int numOfCols)
-//			throws IOException {
-//		
-//		int[][] tempsArray = new int[numOfRows][numOfCols];
-//		File tempsFile = new File(tempsFilePath);
-//		BufferedReader bufferedReader
-//			= new BufferedReader(new FileReader(tempsFile));
-//		
-//		int lineIndex = 0;
-//		String line = null;
-//		String[] values = null;
-//		while ((line = bufferedReader.readLine()) != null) {
-//			values = line.split(",");
-//			
-//			tempsArray[lineIndex][0] = Integer.getInteger(values[0]);
-//			tempsArray[lineIndex][1] = Integer.getInteger(values[1]);
-//			tempsArray[lineIndex][2] = Integer.getInteger(values[2]);
-//			
-//			lineIndex += lineIndex;
-//		}
-//		
-//		bufferedReader.close();
-//		
-//		return tempsArray;
-//	}
-	
 	/**
 	 * Write a temperatures report header to the console.
+	 * 
+	 * @param monthNum: The number of the month for which the report
+	 * 	header is to be written
 	 */
-	private static final void writeReportHeaderToConsole() {
+	private static final void writeReportHeaderToConsole(int monthNum) {
+		assert 1 <= monthNum && monthNum <= 12;
+		
+		String monthString = Month.of(monthNum).toString();
 		
 		System.out.println("--------------------------------------------------------------");
-		System.out.println("December 2020: Temperatures in Utah");
+		System.out.println(monthString + " 2020: Temperatures in Utah");
 		System.out.println("--------------------------------------------------------------");
 	}
 	
@@ -200,8 +155,14 @@ public class Assignment3 {
 	 *  of the year, the fourth column of each row stores the highest
 	 *  temperature of the day, and the fifth column of each row stores
 	 *  the lowest temperature of the day
+	 *  
+	 * @param monthNum: The number of the month for which the summary is
+	 * 	to be written
 	 */
-	private static final void writeSummaryToConsole(int[][] tempsArray) {
+	private static final void writeSummaryToConsole(int[][] tempsArray,
+		int monthNum) {
+		
+		assert 1 <= monthNum && monthNum <= 12;
 		
 		int indexOfHighestTemp = indexOfHighestTemp(tempsArray);
 		int highestDay = tempsArray[indexOfHighestTemp][0];
@@ -213,12 +174,14 @@ public class Assignment3 {
 		int lowestValue = tempsArray[indexOfLowestTemp][2];
 		int averageLow = averageLow(tempsArray);
 		
+		String monthString = Month.of(monthNum).toString();
+		
 		System.out.println("--------------------------------------------------------------");
-		System.out.printf("December Highest Temperature: 12/%d: %d Average"
-			+ " Hi: %.1f" + System.lineSeparator(),
+		System.out.printf(monthString + " Highest Temperature: 12/%d: %d"
+			+ " Average Hi: %.1f" + System.lineSeparator(),
 			highestDay, highestValue, averageHigh);
-		System.out.printf("December Lowest Temperature: 12/%d: %d Average"
-			+ " Lo: %.1f" + System.lineSeparator(),
+		System.out.printf(monthString + " Lowest Temperature: 12/%d: %d"
+			+ " Average Lo: %.1f" + System.lineSeparator(),
 			lowestDay, lowestValue, averageLow);
 		System.out.println("--------------------------------------------------------------");
 	}
@@ -284,12 +247,18 @@ public class Assignment3 {
 	 * NOTE 2: This method does not close the PrintWriter.
 	 * 
 	 * @param printWriter: The PrintWriter
+	 * @param monthNum: The number of the month for which the report
+	 * 	header is to be written
 	 */
 	private static final void writeReportHeaderToFile(
-		PrintWriter printWriter) {
+		PrintWriter printWriter, int monthNum) {
+		
+		assert 1 <= monthNum && monthNum <= 12;
+		
+		String monthString = Month.of(monthNum).toString();
 		
 		printWriter.println("--------------------------------------------------------------");
-		printWriter.println("December 2020: Temperatures in Utah");
+		printWriter.println(monthString + " 2020: Temperatures in Utah");
 		printWriter.println("--------------------------------------------------------------");
 	}
 	
@@ -352,9 +321,13 @@ public class Assignment3 {
 	 *  temperature of the day, and the fifth column of each row stores
 	 *  the lowest temperature of the day
 	 * @param printWriter: The PrintWriter
+	 * @param monthNum: The number of the month for which the summary is
+	 * 	to be written
 	 */
 	private static final void writeSummaryToFile(
-		int[][] tempsArray, PrintWriter printWriter) {
+		int[][] tempsArray, PrintWriter printWriter, int monthNum) {
+		
+		assert 1 <= monthNum && monthNum <= 12;
 		
 		int indexOfHighestTemp = indexOfHighestTemp(tempsArray);
 		int highestDay = tempsArray[indexOfHighestTemp][0];
@@ -366,12 +339,14 @@ public class Assignment3 {
 		int lowestValue = tempsArray[indexOfLowestTemp][2];
 		int averageLow = averageLow(tempsArray);
 		
+		String monthString = Month.of(monthNum).toString();
+		
 		printWriter.println("--------------------------------------------------------------");
-		printWriter.printf("December Highest Temperature: 12/%d: %d Average"
-			+ " Hi: %.1f" + System.lineSeparator(),
+		printWriter.printf(monthString + " Highest Temperature: 12/%d: %d"
+			+ " Average Hi: %.1f" + System.lineSeparator(),
 			highestDay, highestValue, averageHigh);
-		printWriter.printf("December Lowest Temperature: 12/%d: %d Average"
-			+ " Lo: %.1f" + System.lineSeparator(),
+		printWriter.printf(monthString + " Lowest Temperature: 12/%d: %d "
+			+ " Average Lo: %.1f" + System.lineSeparator(),
 			lowestDay, lowestValue, averageLow);
 		printWriter.println("--------------------------------------------------------------");
 	}
@@ -569,27 +544,62 @@ public class Assignment3 {
 	 *  or the report file (output file)
 	 */
 	public static void main(String[] args) throws Exception {
+		/* Prompt the user for a month number in the set (11, 12) until
+		 * they enter such an integer.
+		 */
+		System.out.println("Please enter either 11 or 12. The temperature"
+			+ " data for the corresponding month in 2020 (November for 11"
+			+ " or December for 12) will be retrieved from a database, and"
+			+ " a tempeartures report based on that data will be printed"
+			+ " to the console as well as printed to a file called"
+			+ Assignment3.REPORT_FILE_PATH + ".");
+		System.out.println();
+		System.out.print("Please enter your selection here: ");
+		
+		Scanner scanner = new Scanner(System.in);
+		String pleaseEnterMessage = "Please enter your selection of 11 or"
+			+ " 12 here: ";
+		int monthNum = -1;
+		while (monthNum < 11 || 12 < monthNum) {
+			if (scanner.hasNext()) {
+				if (!scanner.hasNextInt()) {
+					scanner.next();
+					System.out.print(pleaseEnterMessage);
+					continue;
+				}
+				
+				monthNum = scanner.nextInt();
+				
+				if (monthNum < 11 || 12 < monthNum) {
+					System.out.print(pleaseEnterMessage);
+				}
+			}
+		}
+		scanner.close();
+		
 		/* Create temperatures array */
-		int[][] tempsArray = readTempsArrayFromDatabase();
+		int[][] tempsArray = readTempsArrayFromDatabase(monthNum);
 		
 		/* Create report file if it does not already exist */
-		File reportFile = new File(Assignment3.reportFilePath);
+		File reportFile = new File(Assignment3.REPORT_FILE_PATH);
 		reportFile.createNewFile();
 		
 		/* Instantiate a PrintWriter for writing to the report file */
 		PrintWriter printWriter = new PrintWriter(
-			Assignment3.reportFilePath);
+			Assignment3.REPORT_FILE_PATH);
 		
 		/* Write to the console */
-		writeReportHeaderToConsole();
+		writeReportHeaderToConsole(monthNum);
 		writeHighLowVarianceToConsole(tempsArray);
-		writeSummaryToConsole(tempsArray);
+		writeSummaryToConsole(tempsArray, monthNum);
 		writeGraphToConsole(tempsArray);
 		
 		/* Write to the report file */
-		writeReportHeaderToFile(printWriter);
+		// TODO: Make sure that report overwrites, not appends to, the
+		//	report file if the file already exists.
+		writeReportHeaderToFile(printWriter, monthNum);
 		writeHighLowVarianceToFile(tempsArray, printWriter);
-		writeSummaryToFile(tempsArray, printWriter);
+		writeSummaryToFile(tempsArray, printWriter, monthNum);
 		writeGraphToFile(tempsArray, printWriter);
 		
 		/* Close the PrintWriter */

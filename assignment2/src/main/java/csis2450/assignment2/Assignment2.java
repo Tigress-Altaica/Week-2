@@ -15,20 +15,20 @@ import org.apache.commons.lang3.StringUtils;
 * @author Anneliese Braunegg
 * 
 * Date Created: Saturday, January 30, 2021
-* Date Last Updated: Saturday, January 30, 2021
+* Date Last Updated: Sunday, January 31, 2021
 *
 */
 public class Assignment2 {
 	
-	private static final String tempsFilePath
+	private static final String TEMPS_FILE_PATH
 		= Paths.get("src", "main", "resources",
 			"SLCDecember2020Temperatures.csv").toString();
 	
-	private static final int numOfTempsRows = 31;
+	private static final int NUM_OF_TEMPS_ROWS = 31;
 	
-	private static final int numOfTempsCols = 3;
+	private static final int NUM_OF_TEMPS_COLS = 3;
 	
-	private static final String reportFilePath
+	private static final String REPORT_FILE_PATH
 		= Paths.get("src", "main", "resources",
 			"TemperaturesReport.txt").toString();
 	
@@ -479,16 +479,16 @@ public class Assignment2 {
 	public static void main(String[] args) throws IOException {
 		/* Create temperatures array */
 		int[][] tempsArray = readTempsArrayFromFile(
-			Assignment2.tempsFilePath, Assignment2.numOfTempsRows,
-			Assignment2.numOfTempsCols);
+			Assignment2.TEMPS_FILE_PATH, Assignment2.NUM_OF_TEMPS_ROWS,
+			Assignment2.NUM_OF_TEMPS_COLS);
 		
 		/* Create report file if it does not already exist */
-		File reportFile = new File(Assignment2.reportFilePath);
+		File reportFile = new File(Assignment2.REPORT_FILE_PATH);
 		reportFile.createNewFile();
 		
 		/* Instantiate a PrintWriter for writing to the report file */
 		PrintWriter printWriter = new PrintWriter(
-			Assignment2.reportFilePath);
+			Assignment2.REPORT_FILE_PATH);
 		
 		/* Write to the console */
 		writeReportHeaderToConsole();
